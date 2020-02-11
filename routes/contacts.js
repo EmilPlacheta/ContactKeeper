@@ -48,7 +48,8 @@ router.post(
         name,
         email,
         phone,
-        user: req.user.id
+        user: req.user.id,
+        type
       });
 
       const contact = await newContact.save();
