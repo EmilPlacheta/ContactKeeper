@@ -1,10 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
-const Register = () => {
+const Register = props => {
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
+  const { register, error, clearError, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+    if (error === 'Username taken/not available.') {
+      setAlert(error, 'danger');
+      clearError();
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
     name: '',
@@ -26,11 +40,15 @@ const Register = () => {
     } else if (password !== password2) {
       setAlert('Passwords dont match :(', 'danger');
     } else {
-      console.log('Registered');
+      register({
+        name,
+        email,
+        password
+      });
     }
   };
 
-  /* Validation added to the input fields themselves, makes the alert functionality (context, state, reducer) redundand... added input values: required, minLength='6' */
+  /* Validation also added to the input fields themselves: required, minLength='6' */
 
   return (
     <div className='form-container'>
