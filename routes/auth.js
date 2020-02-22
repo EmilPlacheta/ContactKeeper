@@ -17,12 +17,12 @@ router.get('/', auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err.message);
+    res
+      .status(500)
+      .send(
+        'Server error. User not found. Or something else broke...IDK, first time doing this...'
+      );
   }
-  res
-    .status(500)
-    .send(
-      'Server error. User not found. Or something else broke...IDK, first time doing this...'
-    );
 });
 
 //@route    POST api/auth
