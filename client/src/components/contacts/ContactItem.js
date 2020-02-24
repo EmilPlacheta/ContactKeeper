@@ -34,10 +34,12 @@ const ContactItem = ({ contact }) => {
           </li>
         )}
 
-        {phone && (
+        {phone.length > 0 ? (
           <li>
             <i className='fas fa-phone'></i> {phone}
           </li>
+        ) : (
+          ''
         )}
       </ul>
 
